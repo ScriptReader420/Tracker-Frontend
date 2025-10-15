@@ -35,11 +35,13 @@ export default function TabOneScreen() {
       <Text>{'\n'}{'\n'}</Text>
       
       
-      
-      <Text>Remaining</Text>
-      
-      
       <Text>Food Item</Text>
+      <input type="text" placeholder="Enter food item" />
+      <Text>Calories</Text>
+      <input type="number" placeholder="Enter calories" />
+      <input type="submit" value="Add Food" />
+      <Text>{'\n'}{'\n'}</Text>
+    
     </View>
   );
 }
