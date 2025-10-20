@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { Text, } from 'react-native';
-import {  
-  View,           // Required for grouping/layout
-  StyleSheet      // Required for styling
-} from 'react-native';
 
 
 export default function Index() {
@@ -35,3 +31,11 @@ return (
 
 
 
+if (typeof window !== 'undefined' && window.localStorage) {
+    // If we are in a browser, use localStorage
+    const userId = localStorage.getItem('user_id');
+    console.log("User ID from local storage:", userId);
+} else {
+    // If we are on the server (Node.js/SSR) or in a restricted environment
+    console.warn("localStorage is not available in this environment.");
+}
