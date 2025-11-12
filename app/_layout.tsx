@@ -1,50 +1,28 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack, Tabs } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Stack } from "expo-router";
+import { AuthProvider } from "./context/AuthContext";
 
-Ionicons.loadFont();
-
-export default function TabLayout() {
+// This component is the primary entry point for the entire application.
+// It sets up the main navigation stack.
+export default function RootLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#007AFF', // A nice blue color for active tabs
-        headerShown: true, // Show the header with the screen title
-      }}
-    >
-      {/* 1. Home/Tracker Tab (Corresponds to index.tsx) */}
-      <Tabs.Screen
-        name="index" // The file name without the extension (index.tsx)
-        options={{
-          title: 'Today',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="calendar-outline" size={24} color={color} />
-          ),
-          headerTitle: 'Daily Calorie Log',
-        }}
-      />
+    // Wrap the entire app navigation with AuthProvider so auth state is available app-wide
+    <AuthProvider>
+      <Stack>
+        {/* CRITICAL: This line tells Expo Router to load all routes 
+          defined inside the 'tabs' folder. The layout for the tabs 
+          (the bottom bar) is defined in app/tabs/_layout.tsx. 
+        */}
+        <Stack.Screen
+          name="tabs"
+          options={{
+            headerShown: false, // We hide the header here because the tabs layout will control it
+          }}
+        />
 
-      {/* 2. Settings Tab (Corresponds to settings.tsx) */}
-      <Tabs.Screen
-        name="explore" // The file name without the extension (settings.tsx)
-        options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="options-outline" size={24} color={color} />
-          ),
-          headerTitle: 'App Settings',
-        }}
-      />
-      
-      {/* NOTE: Any other files in app/(tabs) (like modal.tsx) 
-        must also be included here or excluded via the 'unstable_settings' property.
-      */}
-
-    </Tabs>
+        {/* Add other global routes outside of the tab bar here: */}
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        <Stack.Screen name="auth" options={{ headerShown: false }} />
+      </Stack>
+    </AuthProvider>
   );
 }
-

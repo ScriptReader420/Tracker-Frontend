@@ -1,11 +1,15 @@
 import axios from "axios";
 import React from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, Platform, Text, TextInput, View } from "react-native";
 
 export default function setCalorieGoal() {
   const [goal, setGoal] = React.useState("");
   const postdata = async () => {
-    const posturl = "http://192.168.0.27:8000/api/calorie-goal";
+    const baseUrl = Platform.select({
+      web: "http://localhost:8000",
+      default: "http://192.168.0.77:8000",
+    });
+    const posturl = `${baseUrl}/api/calorie-goal/`;
     const data = { goal: goal };
     const headers = { "Content-Type": "application/json" };
     try {
